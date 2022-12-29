@@ -1,3 +1,5 @@
+package com.ninjasifi.neuralnetwork;
+
 import java.util.*;
 
 public class Main {
