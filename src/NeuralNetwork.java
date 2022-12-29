@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class NeuralNetwork{
     // Middle layers not including start and end nodes
@@ -37,8 +38,15 @@ float[][][] weights;
     private void initNeurons(){
         neurons = new float[layers.length][];
         // For every line of (neurons), do one loop and initialize it to (layers) length
+
         for(int i = 0; i < neurons.length; i++){
+
             neurons[i] = new float[layers[i]];
+
+            // Initialize neurons to -0.5 to 0.5
+            for (int j = 0; j < neurons[i].length; j++) {
+                neurons[i][j] = (float) (Math.random() - .5);
+            }
         }
         //System.out.println(Arrays.deepToString(neurons));
     }
@@ -75,7 +83,6 @@ float[][][] weights;
             // Loop over all neurons
             for(int j = 0; j < neurons[i].length; j++){
                 value = 0;
-
                 // Multiply the value of the previous neuron by the weights of this neuron
                 for(int k = 0; k < neurons[i - 1].length; k++){
                     value += weights[i - 1][j][k] * neurons[i - 1][k];
@@ -94,12 +101,13 @@ float[][][] weights;
         float weight;
         float factor;
         int randomNumber;
+        // Mutate weights
             for (int i = 0; i < weights.length; i++) {
                 for (int j = 0; j < weights[i].length; j++) {
                     for (int k = 0; k < weights[i][j].length; k++) {
                         weight = weights[i][j][k];
 
-                        //mutate weight value
+                        // Mutate weight value
                         randomNumber = (int) (Math.random() * 100);
 
                         if (randomNumber <= 2f) { //if 1
