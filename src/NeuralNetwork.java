@@ -1,6 +1,5 @@
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 public class NeuralNetwork{
     // Middle layers not including start and end nodes
@@ -42,13 +41,13 @@ float[][][] weights;
         for(int i = 0; i < neurons.length; i++){
 
             neurons[i] = new float[layers[i]];
-
+            /*
             // Initialize neurons to -0.5 to 0.5
             for (int j = 0; j < neurons[i].length; j++) {
                 neurons[i][j] = (float) (Math.random() - .5);
             }
+             */
         }
-        //System.out.println(Arrays.deepToString(neurons));
     }
     private void initWeights() {
         weights = new float[layers.length - 1][][];
@@ -99,6 +98,7 @@ float[][][] weights;
     }
     public void mutate(){
         float weight;
+        //float neuron;
         float factor;
         int randomNumber;
         // Mutate weights
@@ -129,6 +129,31 @@ float[][][] weights;
                     }
                 }
             }
+            /*
+            for (int i = 0; i < neurons.length; i++) {
+                for (int j = 0; j < neurons[i].length; j++) {
+                    neuron = neurons[i][j];
+
+                    randomNumber = (int)(Math.random() * 100);
+                    if (randomNumber <= 2f) { //if 1
+                        //flip sign of weight
+                        neuron *= -1f;
+                    } else if (randomNumber <= 4f) { //if 2
+                        //pick random weight between -1 and 1
+                        neuron = (float) (Math.random() - .5);
+                    } else if (randomNumber <= 6f) { //if 3
+                        //randomly increase by 0% to 100%
+                        factor = (float) (Math.random() + 1);
+                        neuron *= factor;
+                    } else if (randomNumber <= 8f) { //if 4
+                        //randomly decrease by 0% to 100%
+                        factor = (float)Math.random();
+                        neuron *= factor;
+                    }
+                    neurons[i][j] = neuron;
+                }
+            }
+             */
         }
     public void addFitness(float fit) {
         fitness += fit;
