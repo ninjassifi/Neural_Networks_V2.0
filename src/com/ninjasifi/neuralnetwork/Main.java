@@ -3,14 +3,16 @@ package com.ninjasifi.neuralnetwork;
 import java.util.*;
 
 public class Main {
+    static int threads = 8;
     static int inputNodes = 8;
     static int outputNodes = 8;
-    static int generations = 100;
+    static int generations = 10;
     // In order to add layers, just add a number in the middle and add a comma
     static int[] layers = new int[] {inputNodes ,outputNodes};
     static NeuralNetwork net = new NeuralNetwork(layers);
+
     static Scanner scanner = new Scanner(System.in);
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         float percent;
         for (int i = 0; i < generations; i++){
             net = train(net, 1000);
@@ -18,7 +20,7 @@ public class Main {
             percent = (percent / generations) * 100;
             System.out.println((int)percent + "%");
         }
-        System.out.println("done");
+        System.out.println("100%");
         System.out.println(net.getFitness());
         // test the neural networks
         while(true) {
@@ -53,66 +55,20 @@ public class Main {
     // 1. create a duplicate network with a little change
     // 2. check if it's better
     // 3. return the best one
-    static NeuralNetwork train(NeuralNetwork net, int popSize) {
-
-        // Make an input as long as there are input nodes
-        float[] input = new float[inputNodes];
-
-        // Out
-        float[] out;
-
-        // Best network stuff
-        int bestNetwork = 0;
-
-        // New list of networks
-        List<NeuralNetwork> nets = new ArrayList<>();
-
-        // Check if the neuralNetwork doesn't exist, if not, make one
-        if (net == null) {
-            net = new NeuralNetwork(layers);
+    static NeuralNetwork train(NeuralNetwork net, int popSize) throws InterruptedException {
+        int bestNet = 0;
+        ArrayList<Train> trains = new ArrayList<>(threads);
+        for (int i = 0; i < threads; i++) {
+            trains.add(new Train(net, (i * popSize) / threads, i * popSize));
+            trains.get(i).start();
         }
-        for (int i = 0; i < popSize; i++) {
-            // Run the network, and tell the ai that he's a bad boy or good boy
-
-            // add new network
-            nets.add(i, new NeuralNetwork(net));
-
-            // Mutate aforementioned network
-            nets.get(i).mutate();
-
-            // Go through all the answers that possibly can happen and check if it's right
-            for (int k = 0; k < Math.pow(2, input.length); k++) {
-                boolean[] boolArray;
-                boolArray = Main.toBin(k, input.length);
-                for (int j = 0; j < input.length; j++) {
-                    input[j] = (float)(boolArray[j] ? 1 : 0);
-                }
-                // Calculate out
-                out = nets.get(i).feedForward(input);
-
-
-                // Turn out into 1s or 0s
-                for (int j = 0; j < out.length; j++) {
-                    if(out[j] <= 0){
-                        out[j] = 0;
-                    }else{
-                        out[j] = 1;
-                    }
-                }
-
-                // Check if it does what I want it to do
-                for (int j = 0; j < out.length; j++) {
-                    if(out[j] == input[j]){
-                        nets.get(i).addFitness(1);
-                    }
-                }
-            }
-            // Check if this network is best
-            if(nets.get(i).getFitness() > nets.get(bestNetwork).getFitness()){
-                bestNetwork = i;
+        for (int i = 0; i < threads; i++) {
+            trains.get(i).join();
+            if(trains.get(i).getBestNet().getFitness() > trains.get(bestNet).getBestNet().getFitness()){
+                bestNet = i;
             }
         }
-        return nets.get(bestNetwork);
+        return trains.get(bestNet).getBestNet();
     }
 
     public static boolean[] toBin(int number, int length) {

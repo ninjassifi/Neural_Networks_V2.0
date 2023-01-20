@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="06e0db94-1422-4b29-8755-61b100dba0c5" name="Changes" comment="Version 1.2">
+    <list default="true" id="06e0db94-1422-4b29-8755-61b100dba0c5" name="Changes" comment="Version 2.0&#10;Added:&#10;Multithreading">
+      <change afterPath="$PROJECT_DIR$/src/com/ninjasifi/neuralnetwork/Train.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/ninjasifi/neuralnetwork/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NeuralNetwork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/ninjasifi/neuralnetwork/NeuralNetwork.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/ninjasifi/neuralnetwork/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/ninjasifi/neuralnetwork/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,6 +130,16 @@
     <MESSAGE value="Version 1.1" />
     <MESSAGE value="Version 1.2" />
     <option name="LAST_COMMIT_MESSAGE" value="Version 1.2" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.IndexOutOfBoundsException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Neural_Networks$Main.ic" NAME="Main Coverage Results" MODIFIED="1672179121519" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
