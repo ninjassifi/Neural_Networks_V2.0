@@ -20,7 +20,7 @@ public class Train extends Thread {
         this.min = min;
         this.max = max;
         this.net = net;
-        nets = new ArrayList<NeuralNetwork>(max - min);
+        nets = new ArrayList<>(max - min);
         for (int i = 0; i < max; i++) {
             nets.add(i, new NeuralNetwork(net));
         }
@@ -80,6 +80,7 @@ public class Train extends Thread {
     }
 
     public NeuralNetwork getBestNet() {
-        return nets.get(bestNet);
+        NeuralNetwork network = nets.get(bestNet);
+        return network;
     }
 }

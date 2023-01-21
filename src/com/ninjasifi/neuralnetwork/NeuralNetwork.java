@@ -7,7 +7,7 @@ public class NeuralNetwork{
     // Middle layers not including start and end nodes
     private final int[] layers;
     private float[][] neurons;
-float[][][] weights;
+    float[][][] weights;
     private float fitness;
     public NeuralNetwork(int[] layers) {
         //deep copy of layers of this network

@@ -4,8 +4,8 @@ import java.util.*;
 
 public class Main {
     static int threads = 8;
-    static int inputNodes = 8;
-    static int outputNodes = 8;
+    static int inputNodes = 4;
+    static int outputNodes = 4;
     static int generations = 10;
     // In order to add layers, just add a number in the middle and add a comma
     static int[] layers = new int[] {inputNodes ,outputNodes};
@@ -57,18 +57,22 @@ public class Main {
     // 3. return the best one
     static NeuralNetwork train(NeuralNetwork net, int popSize) throws InterruptedException {
         int bestNet = 0;
-        ArrayList<Train> trains = new ArrayList<>(threads);
-        for (int i = 0; i < threads; i++) {
-            trains.add(new Train(net, (i * popSize) / threads, i * popSize));
-            trains.get(i).start();
+        ArrayList<Train> threads = new ArrayList<>(Main.threads);
+        for (int i = 0; i < Main.threads; i++) {
+            threads.add(new Train(net, (i * popSize) / Main.threads, (i + 1) * popSize / Main.threads));
+            threads.get(i).start();
         }
-        for (int i = 0; i < threads; i++) {
-            trains.get(i).join();
-            if(trains.get(i).getBestNet().getFitness() > trains.get(bestNet).getBestNet().getFitness()){
+        for (int i = 0; i < Main.threads; i++) {
+            threads.get(i).join();
+            float currentFitness = threads.get(i).getBestNet().getFitness();
+            float bestFitness = threads.get(bestNet).getBestNet().getFitness();
+            if(currentFitness > bestFitness){
+            //System.out.println(trains.get(i).getBestNet().getFitness());
                 bestNet = i;
             }
         }
-        return trains.get(bestNet).getBestNet();
+        System.out.println(threads.get(bestNet).getBestNet().getFitness());
+        return threads.get(bestNet).getBestNet();
     }
 
     public static boolean[] toBin(int number, int length) {
